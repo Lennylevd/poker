@@ -29,7 +29,7 @@ namespace Poker
         public static bool fin = false;
 
         // Codes COULEUR
-        public enum couleur { VERT = 10, ROUGE = 12, JAUNE = 14, BLANC = 15, NOIRE = 0, ROUGESURBLANC = 252, NOIRESURBLANC = 240 };
+        public enum couleur { VERT = 10, ROUGE = 12, JAUNE = 14, BLANC = 15, NOIRE = 0, ROUGESURBLANC = 252, NOIRESURBLANC = 240 }; //
 
         // Coordonnées pour l'affichage
         public struct coordonnees
@@ -44,7 +44,8 @@ namespace Poker
             public char valeur;
             public int famille;
         };
-
+		
+        public static Random rnd=new Random();
         // Liste des combinaisons possibles
         public enum combinaison { RIEN, PAIRE, DOUBLE_PAIRE, BRELAN, QUINTE, FULL, COULEUR, CARRE, QUINTE_FLUSH };
 
@@ -68,7 +69,15 @@ namespace Poker
         // Retourne une expression de type "structure carte"
         public static carte tirage()
         {
-       	      
+  
+        	int rvaleurs =rnd.Next(0,valeurs.Length);
+        	int rfamilles =rnd.Next(0,familles.Length);
+        	carte macarte = new carte();
+        	
+        	macarte.valeur = rvaleurs[valeurs];
+        	macarte.famille = rfamilles[familles];
+        	
+        	return macarte
         }
 
         // Indique si une carte est déjà présente dans le jeu
