@@ -69,15 +69,30 @@ namespace Poker
         // Retourne une expression de type "structure carte"
         public static carte tirage()
         {
-  
+			// Génère aléat de la valeur et de la famille
+   		 	int indiceValeur = rnd.Next(0, valeurs.Length);
+   	 		int indiceFamille = rnd.Next(0, familles.Length);
+
+    		// Nouv carte avec valeur et la famille
+    		carte nouvelleCarte = new carte
+    		{
+        		valeur = valeurs[indiceValeur],
+        		famille = familles[indiceFamille]
+    		};
+
+    		return nouvelleCarte;
+        	
+        		
+        	/*
         	int rvaleurs =rnd.Next(0,valeurs.Length);
         	int rfamilles =rnd.Next(0,familles.Length);
         	carte macarte = new carte();
         	
-        	macarte.valeur = rvaleurs[valeurs];
-        	macarte.famille = rfamilles[familles];
+        	macarte.valeur = valeurs[rvaleurs];
+        	macarte.famille = familles[rfamilles];
         	
-        	return macarte
+        	return macarte;
+        	*/
         }
 
         // Indique si une carte est déjà présente dans le jeu
@@ -85,7 +100,23 @@ namespace Poker
         // Retourne un entier (booléen)
         public static bool carteUnique(carte uneCarte, carte[] unJeu, int numero)
         {
-		 
+		 	// Parcours du tab de jeu pour vérif si la carte est déjà présente
+    		for (int i = 0; i < unJeu.Length; i++)
+   				{
+        		// Compare pas la carte avec elle-même (celle à la même position)
+       			if (i != numero)
+       				{
+           			// Comparaison de la famille et de la valeur
+            		if (uneCarte.famille == unJeu[i].famille && uneCarte.valeur == unJeu[i].valeur)
+            			{
+                		// La carte est déjà présente
+                		return false;
+            			}
+        			}
+    			}
+
+    		// La carte est unique
+    		return true;
         }
 
         // Calcule et retourne la COMBINAISON (paire, double-paire... , quinte-flush)
