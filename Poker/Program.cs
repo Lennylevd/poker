@@ -70,20 +70,20 @@ namespace Poker
         public static carte tirage()
         {
 			// Génère aléat de la valeur et de la famille
-   		 	int indiceValeur = rnd.Next(0, valeurs.Length);
-   	 		int indiceFamille = rnd.Next(0, familles.Length);
+   		 	int iValeur = rnd.Next(0, valeurs.Length);
+   	 		int iFamille = rnd.Next(0, familles.Length);
 
     		// Nouv carte avec valeur et la famille
-    		carte nouvelleCarte = new carte
+    		carte nouvCarte = new carte
     		{
-        		valeur = valeurs[indiceValeur],
-        		famille = familles[indiceFamille]
+        		valeur = valeurs[iValeur],
+        		famille = familles[iFamille]
     		};
 
-    		return nouvelleCarte;
+    		return nouvCarte;
         	
         		
-        	/*
+        	/*		autre façon
         	int rvaleurs =rnd.Next(0,valeurs.Length);
         	int rfamilles =rnd.Next(0,familles.Length);
         	carte macarte = new carte();
@@ -119,12 +119,83 @@ namespace Poker
     		return true;
         }
 
-        // Calcule et retourne la COMBINAISON (paire, double-paire... , quinte-flush)
+        // Calcule et retourne la COMBINAISON (PAIRE, DOUBLE_PAIRE... QUINTE_FLUSH)
         // pour un jeu complet de 5 cartes.
         // La valeur retournée est un élement de l'énumération 'combinaison' (=constante)
-        public static combinaison chercheCombinaison(carte[] unJeu)
+        public static combinaison chercheCombinaison(ref carte[] unJeu)
         {
-		 
+			// Trie les cartes par valeur
+    		Array.Sort(unJeu, (x, y) => x.valeur.CompareTo(y.valeur));
+
+    		// Vérifie la quinte flush
+    		bool quinteFlush = true;
+    		for (int i = 1; i < unJeu.Length; i++)
+    		{
+        		if (unJeu[i].famille != unJeu[i - 1].famille || unJeu[i].valeur != unJeu[i - 1].valeur + 1)
+        		{
+            		quinteFlush = false;
+            		break;
+        		}
+    		}
+
+    		// Vérifie la couleur
+    		bool couleur = unJeu[0].famille == unJeu[1].famille && unJeu[0].famille == unJeu[2].famille && unJeu[0].famille == unJeu[3].famille && unJeu[0].famille == unJeu[4].famille;
+
+    		// Compte les paires, brelans et carrés
+    		int paires = 0;
+    		int brelans = 0;
+    		int carres = 0;
+
+    		// Compte le nombre de chaque valeur de carte
+    		char lastValue = '\0';
+    		int valueCount = 1;
+
+    		for (int i = 1; i < unJeu.Length; i++)
+    		{
+        		if (unJeu[i].valeur == lastValue)
+        		{
+            		valueCount++;
+        		}
+        		else
+        		{
+            		if (valueCount == 2)
+                		paires++;
+            		else if (valueCount == 3)
+                		brelans++;
+            		else if (valueCount == 4)
+                		carres++;
+
+            		lastValue = unJeu[i].valeur;
+            		valueCount = 1;
+        		}
+   		 	}
+
+    		if (valueCount == 2)
+       		 	paires++;
+    		else if (valueCount == 3)
+        		brelans++;
+    		else if (valueCount == 4)
+        		carres++;
+
+    		// Détermine la combinaison
+    		if (quinteFlush && couleur)
+        		return combinaison.QUINTE_FLUSH;
+    		else if (carres > 0)
+        		return combinaison.CARRE;
+    		else if (brelans > 0 && paires > 0)
+        		return combinaison.FULL;
+    		else if (couleur)
+        		return combinaison.COULEUR;
+    		else if (quinteFlush)
+        		return combinaison.QUINTE;
+    		else if (brelans > 0)
+        		return combinaison.BRELAN;
+    		else if (paires == 2)
+        		return combinaison.DOUBLE_PAIRE;
+   		 	else if (paires == 1)
+        		return combinaison.PAIRE;
+
+    		return combinaison.RIEN;
         }
 
         // Echange des cartes
