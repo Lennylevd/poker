@@ -224,6 +224,18 @@ namespace Poker
         private static void afficheMenu()
         {
 		 
+        	SetConsoleTextAttribute(hConsole, (int)couleur.ROUGE);
+    Console.WriteLine("");
+    Console.WriteLine("*----------*");
+    Console.WriteLine("| POKER    |");
+    Console.WriteLine("|1. Jouer  |");
+    Console.WriteLine("|2. Scores |");
+    Console.WriteLine("|3. Quitter|");
+    Console.WriteLine("*----------*");
+    Console.WriteLine("");
+    	    SetConsoleTextAttribute(hConsole, (int)couleur.JAUNE);
+    Console.Write("Choisissez une option (1, 2 ou 3) : ");
+
         	
         }
 
