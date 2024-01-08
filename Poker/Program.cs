@@ -202,8 +202,21 @@ namespace Poker
         // Paramètres : le tableau de 5 cartes et le tableau des numéros des cartes à échanger
         private static void echangeCarte(carte[] unJeu, int[] e)
         {
-		 
-		 
+		  Random rnd = new Random();
+
+    		for (int i = 0; i < e.Length; i++)
+   			{
+        		// Vérifie si le numéro de carte à échanger est valide
+        		if (e[i] >= 0 && e[i] < unJeu.Length)
+        		{
+            		// Génère une nouvelle carte
+            		unJeu[e[i]].valeur = valeurs[rnd.Next(valeurs.Length)];
+            		unJeu[e[i]].famille = familles[rnd.Next(familles.Length)];
+
+            		// Affiche la carte à échanger et la nouvelle carte
+            		Console.WriteLine($"Vous échangez la carte {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)} avec {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)}");
+        		}
+    		}
         }
 
         // Pour afficher le Menu pricipale
