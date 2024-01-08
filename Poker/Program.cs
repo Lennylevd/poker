@@ -232,7 +232,27 @@ namespace Poker
 		// Ici que vous appellez toutes les fonction permettant de joueur au poker
         private static void jouerAuPoker()
         {
-		 
+			Console.Clear(); // Efface le contenu de la console avant de commencer le jeu
+        	
+        	// Tirage initial du jeu
+    		tirageDuJeu(MonJeu);
+
+    		// Affichage du jeu initial
+    		affichageCarte();
+
+    		// Demande d'échange de cartes
+    		// À vous de compléter cette partie en appelant la fonction d'échange des cartes
+    		// e.g., echangeCarte(MonJeu, echange);
+
+   	 		// Affichage du jeu après l'échange
+   			 affichageCarte();
+
+    		// Calcul et affichage du résultat
+    		afficheResultat(MonJeu);
+
+    		// Enregistrement du score
+    		enregistrerJeu(MonJeu);
+    
         }
 
         // Tirage d'un jeu de 5 cartes
