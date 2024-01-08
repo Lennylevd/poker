@@ -81,18 +81,6 @@ namespace Poker
     		};
 
     		return nouvCarte;
-        	
-        		
-        	/*		autre façon
-        	int rvaleurs =rnd.Next(0,valeurs.Length);
-        	int rfamilles =rnd.Next(0,familles.Length);
-        	carte macarte = new carte();
-        	
-        	macarte.valeur = valeurs[rvaleurs];
-        	macarte.famille = familles[rfamilles];
-        	
-        	return macarte;
-        	*/
         }
 
         // Indique si une carte est déjà présente dans le jeu
@@ -223,7 +211,8 @@ namespace Poker
         // Pour afficher le Menu pricipale
         private static void afficheMenu()
         {
-		 
+		 // j'ai pas compris comment utiliser le code couleur : VERT = 10, ROUGE = 12, JAUNE = 14, BLANC = 15, NOIRE = 0, ROUGESURBLANC = 252, NOIRESURBLANC = 240 
+		 // ducoup j'ai remplacé le commande du code couleur par la commande ci-dessous
         	SetConsoleTextAttribute(hConsole, (int)couleur.ROUGE);
     Console.WriteLine("");
     Console.WriteLine("*----------*");
