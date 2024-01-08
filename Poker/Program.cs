@@ -214,15 +214,17 @@ namespace Poker
             		unJeu[e[i]].famille = familles[rnd.Next(familles.Length)];
 
             		// Affiche la carte à échanger et la nouvelle carte
-            		Console.WriteLine($"Vous échangez la carte {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)} avec {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)}");
+            		Console.WriteLine("Vous échangez la carte {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)} avec {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)}");
         		}
     		}
+		
         }
 
         // Pour afficher le Menu pricipale
         private static void afficheMenu()
         {
 		 
+        	
         }
 
         // Jouer au Poker
