@@ -211,18 +211,17 @@ namespace Poker
         // Pour afficher le Menu pricipale
         private static void afficheMenu()
         {
-		 // j'ai pas compris comment utiliser le code couleur : VERT = 10, ROUGE = 12, JAUNE = 14, BLANC = 15, NOIRE = 0, ROUGESURBLANC = 252, NOIRESURBLANC = 240 
-		 // ducoup j'ai remplacé le commande du code couleur par la commande ci-dessous
-        	SetConsoleTextAttribute(hConsole, (int)couleur.ROUGE);
+
+                    SetConsoleTextAttribute(hConsole, 012);
     Console.WriteLine("");
     Console.WriteLine("*----------*");
-    Console.WriteLine("| POKER    |");
+    Console.WriteLine("|   POKER  |");
     Console.WriteLine("|1. Jouer  |");
     Console.WriteLine("|2. Scores |");
     Console.WriteLine("|3. Quitter|");
     Console.WriteLine("*----------*");
     Console.WriteLine("");
-    	    SetConsoleTextAttribute(hConsole, (int)couleur.JAUNE);
+                    SetConsoleTextAttribute(hConsole, 014);
     Console.Write("Choisissez une option (1, 2 ou 3) : ");
 
         	
@@ -259,8 +258,23 @@ namespace Poker
         // Paramètre : le tableau de 5 cartes à remplir
         private static void tirageDuJeu(carte[] unJeu)
         {
-		 
-        }
+		 	Random rnd = new Random();
+
+   		 	for (int i = 0; i < unJeu.Length; i++)
+    		{
+        		carte nouvelleCarte;
+
+        		// Génère une nouvelle carte tant qu'elle n'est pas unique dans le jeu
+        		do
+        		{
+            		nouvelleCarte = tirage();
+        		}
+        		while (!carteUnique(nouvelleCarte, unJeu, i));
+
+        		unJeu[i] = nouvelleCarte;
+    		}
+        	
+       }
 
         // Affiche à l'écran une carte {valeur;famille} 
         private static void affichageCarte()
@@ -314,13 +328,52 @@ namespace Poker
         // Enregistre le score dans le txt
         private static void enregistrerJeu(carte[] unJeu)
         {
-          
-        }
+    			Console.Write("Entrez votre nom ou pseudo : ");
+    			string nom = Console.ReadLine();
+
+    			// Création ou ouverture du fichier scores.txt en mode écriture (FileMode.Append)
+    			using (StreamWriter writer = new StreamWriter("scores.txt", true))
+    			{
+        			// Format de l'enregistrement : nom;famille1valeur1;famille2valeur2;...;famille5valeur5
+       				 writer.Write("{nom};");
+        			foreach (carte carte in unJeu)
+        			{
+            			writer.Write("{carte.famille}{carte.valeur};");
+        			}
+        			writer.WriteLine(); // Passer à une nouvelle ligne pour le prochain enregistrement
+    			}
+
+   	 			Console.WriteLine("Le jeu a été enregistré avec succès !");
+			}
 
         // Affiche le Scores
         private static void voirScores()
         {
-           
+          	try
+    		{
+        		// Lecture du fichier scores.txt
+        		using (StreamReader reader = new StreamReader("scores.txt"))
+        		{
+        			Console.WriteLine("");
+            		Console.WriteLine("Scores enregistrés :");
+
+            		// Lire et afficher chaque ligne du fichier
+            		while (!reader.EndOfStream)
+            		{
+                		string ligne = reader.ReadLine();
+                		Console.WriteLine(ligne);
+            		}
+        		}
+    		}
+    		catch (FileNotFoundException)
+    		{
+        		Console.WriteLine("Aucun score n'a été enregistré pour le moment.");
+    		}
+    		catch (Exception ex)
+    		{
+        		Console.WriteLine("Une erreur s'est produite : {ex.Message}");
+    		}
+        	
         }
 
         // Affiche résultat
@@ -334,23 +387,23 @@ namespace Poker
                 switch (chercheCombinaison(ref MonJeu))
                 {
                     case combinaison.RIEN:
-                        Console.WriteLine("rien du tout... desole!"); break;
+                        Console.WriteLine("rien"); break;
                     case combinaison.PAIRE:
-                        Console.WriteLine("une simple paire..."); break;
+                        Console.WriteLine("une paire"); break;
                     case combinaison.DOUBLE_PAIRE:
-                        Console.WriteLine("une double paire; on peut esperer..."); break;
+                        Console.WriteLine("une double paire"); break;
                     case combinaison.BRELAN:
-                        Console.WriteLine("un brelan; pas mal..."); break;
+                        Console.WriteLine("un brelan"); break;
                     case combinaison.QUINTE:
-                        Console.WriteLine("une quinte; bien!"); break;
+                        Console.WriteLine("une quinte"); break;
                     case combinaison.FULL:
-                        Console.WriteLine("un full; ouahh!"); break;
+                        Console.WriteLine("un full"); break;
                     case combinaison.COULEUR:
-                        Console.WriteLine("une couleur; bravo!"); break;
+                        Console.WriteLine("une couleur"); break;
                     case combinaison.CARRE:
-                        Console.WriteLine("un carre; champion!"); break;
+                        Console.WriteLine("un carre"); break;
                     case combinaison.QUINTE_FLUSH:
-                        Console.WriteLine("une quinte-flush; royal!"); break;
+                        Console.WriteLine("une quinte-flush"); break;
                 };
             }
             catch { }
