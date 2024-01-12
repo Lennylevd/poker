@@ -1,3 +1,5 @@
 {nom};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};
 {nom};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};
 {nom};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};
+{nom};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};
+{nom};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};{carte.famille}{carte.valeur};

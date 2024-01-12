@@ -188,25 +188,38 @@ namespace Poker
 
         // Echange des cartes
         // Paramètres : le tableau de 5 cartes et le tableau des numéros des cartes à échanger
-        private static void echangeCarte(carte[] unJeu, int[] e)
+       private static void echangeCarte(carte[] unJeu, int[] e)
         {
-		  Random rnd = new Random();
-
-    		for (int i = 0; i < e.Length; i++)
-   			{
-        		// Vérifie si le numéro de carte à échanger est valide
-        		if (e[i] >= 0 && e[i] < unJeu.Length)
-        		{
-            		// Génère une nouvelle carte
-            		unJeu[e[i]].valeur = valeurs[rnd.Next(valeurs.Length)];
-            		unJeu[e[i]].famille = familles[rnd.Next(familles.Length)];
-
-            		// Affiche la carte à échanger et la nouvelle carte
-            		Console.WriteLine("Vous échangez la carte {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)} avec {unJeu[e[i]].valeur} de {SymboleFamille(unJeu[e[i]].famille)}");
-        		}
-    		}
-		
-        }
+            Console.WriteLine("Voulez-vous échanger des cartes ? (O/N)");
+            char choix = Console.ReadKey().KeyChar;
+            Console.WriteLine("");
+            
+            if (choix == 'O' || choix == 'o')
+            {
+                Console.WriteLine("Entrez les numéros des cartes à échanger (1 à 5), séparés par des espaces :");
+                string[] numerosStr = Console.ReadLine().Split(' ');
+                int numero;
+                for (int i = 0; i < numerosStr.Length; i++)
+                {
+                    if (int.TryParse(numerosStr[i], out numero) && (numero >= 1 && numero <= 5))
+                    {
+                        // Les numéros sont valides, marquer la carte à échanger
+                        echange[numero - 1] = 1;
+                        unJeu[i] = tirage();
+                        Console.WriteLine("Carte " + numero + " marquée pour échange.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Entrée invalide pour la carte {numerosStr[i]}. Ignorée.");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Aucune carte n'a été échangée.");
+            }
+       }
+        
 
         // Pour afficher le Menu pricipale
         private static void afficheMenu()
@@ -222,7 +235,7 @@ namespace Poker
     Console.WriteLine("*----------*");
     Console.WriteLine("");
                     SetConsoleTextAttribute(hConsole, 014);
-    Console.Write("Choisissez une option (1, 2 ou 3) : ");
+    Console.Write("Votre choix (1, 2 ou 3) : ");
 
         	
         }
@@ -231,6 +244,7 @@ namespace Poker
 		// Ici que vous appellez toutes les fonction permettant de joueur au poker
         private static void jouerAuPoker()
         {
+        	
 			Console.Clear(); // Efface le contenu de la console avant de commencer le jeu
         	
         	// Tirage initial du jeu
@@ -238,14 +252,22 @@ namespace Poker
 
     		// Affichage du jeu initial
     		affichageCarte();
-
+    		
+    		//affichage du résultat de la main avant échange
+    		afficheResultat(MonJeu);
+    		
     		// Demande d'échange de cartes
-    		// À vous de compléter cette partie en appelant la fonction d'échange des cartes
-    		// e.g., echangeCarte(MonJeu, echange);
-
+    		echangeCarte(MonJeu, echange);
+    		Console.Clear();
+    		
+    		//affichage du résultat de la main avant échange
+    		afficheResultat(MonJeu);
+    		
    	 		// Affichage du jeu après l'échange
    			 affichageCarte();
 
+   			 
+   			 	
     		// Calcul et affichage du résultat
     		afficheResultat(MonJeu);
 
@@ -258,20 +280,19 @@ namespace Poker
         // Paramètre : le tableau de 5 cartes à remplir
         private static void tirageDuJeu(carte[] unJeu)
         {
-		 	Random rnd = new Random();
+		 	
 
-   		 	for (int i = 0; i < unJeu.Length; i++)
+   		 	for (int i = 0; i < 5; i++)
     		{
-        		carte nouvelleCarte;
-
+        		
         		// Génère une nouvelle carte tant qu'elle n'est pas unique dans le jeu
         		do
         		{
-            		nouvelleCarte = tirage();
+        			unJeu[i] = tirage();
         		}
-        		while (!carteUnique(nouvelleCarte, unJeu, i));
+        		while (!carteUnique(MonJeu[i], MonJeu, i));
 
-        		unJeu[i] = nouvelleCarte;
+        		
     		}
         	
        }
@@ -326,8 +347,10 @@ namespace Poker
         }
 
         // Enregistre le score dans le txt
+        // Sa marche po correctement
         private static void enregistrerJeu(carte[] unJeu)
-        {
+        {	
+        		SetConsoleTextAttribute(hConsole, 010);
     			Console.Write("Entrez votre nom ou pseudo : ");
     			string nom = Console.ReadLine();
 
@@ -384,6 +407,7 @@ namespace Poker
             try
             {
                 // Test de la combinaison
+
                 switch (chercheCombinaison(ref MonJeu))
                 {
                     case combinaison.RIEN:
@@ -403,7 +427,7 @@ namespace Poker
                     case combinaison.CARRE:
                         Console.WriteLine("un carre"); break;
                     case combinaison.QUINTE_FLUSH:
-                        Console.WriteLine("une quinte-flush"); break;
+                        Console.WriteLine("une quinte-flush, tu es cocu"); break;
                 };
             }
             catch { }
